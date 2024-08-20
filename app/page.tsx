@@ -33,6 +33,68 @@ const Home = async () => {
                     </Button>
                 </div>
 
+                <div className="mt-6 flex gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
+                    <Button variant="secondary" className="gap-2 text-sm">
+                        <Image
+                            src="/hair.svg"
+                            width={16}
+                            height={16}
+                            alt="Barba"
+                        />
+                        Cabelo
+                    </Button>
+
+                    <Button variant="secondary" className="gap-2 text-sm">
+                        <Image
+                            src="/barber.svg"
+                            width={16}
+                            height={16}
+                            alt="Barba"
+                        />
+                        Barba
+                    </Button>
+
+                    <Button variant="secondary" className="gap-2 text-sm">
+                        <Image
+                            src="/details.svg"
+                            width={16}
+                            height={16}
+                            alt="Barba"
+                        />
+                        Acabemento
+                    </Button>
+
+                    <Button variant="secondary" className="gap-2 text-sm">
+                        <Image
+                            src="/eyebrow.svg"
+                            width={16}
+                            height={16}
+                            alt="Sobrancelha"
+                        />
+                        Sobrancelha
+                    </Button>
+
+                    <Button variant="secondary" className="gap-2 text-sm">
+                        <Image
+                            src="/hydration.svg"
+                            width={16}
+                            height={16}
+                            alt="Hidratação"
+                        />
+                        Hidratação
+                    </Button>
+
+                    <Button variant="secondary" className="gap-2 text-sm">
+                        <Image
+                            src="/massage.svg"
+                            width={16}
+                            height={16}
+                            alt="Massagem"
+                        />
+                        Massagem
+                    </Button>
+                </div>
+
                 <div className="relative mt-6 h-[150px] w-full">
                     <Image
                         alt="Agende nos melhores com o FSW Barber"
