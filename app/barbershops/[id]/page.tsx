@@ -5,6 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { notFound } from "next/navigation"
 import ServiceItem from "@/app/_components/service-item"
+import PhoneItem from "@/app/_components/phone-item"
 
 interface BarbershopPageProps {
     params: {
@@ -78,7 +79,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
                 <p className="text-justify text-sm">{barbershop.description}</p>
             </div>
 
-            <div className="space-y-3 p-5">
+            <div className="space-y-3 border-b border-solid p-5">
                 <h2 className="text-sm font-bold uppercase text-gray-400">
                     Serviços
                 </h2>
@@ -88,6 +89,12 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
                         <ServiceItem service={service} key={service.id} />
                     ))}
                 </div>
+            </div>
+
+            <div className="space-y-3 p-5">
+                {barbershop.phones.map((phone) => (
+                    <PhoneItem key={phone} phone={phone} />
+                ))}
             </div>
         </>
     )
