@@ -105,10 +105,8 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                 hours: hour,
             })
 
-            //TODO : create booking
             await createBooking({
                 serviceId: service.id,
-                userId: (data?.user as any)?.id,
                 date: newDate,
             })
 
