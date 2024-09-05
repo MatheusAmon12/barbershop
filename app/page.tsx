@@ -7,14 +7,32 @@ import { quickSearchOptions } from "./_constants/search"
 import BookingItem from "./_components/booking-item"
 import Search from "./_components/search"
 import Link from "next/link"
+import { authOptions } from "./_lib/auth"
+import { getServerSession } from "next-auth"
 
 const Home = async () => {
+    const session = await getServerSession(authOptions)
     const barbershops = await db.barbershop.findMany({})
     const popularBarbershops = await db.barbershop.findMany({
         orderBy: {
             name: "desc",
         },
     })
+
+    const bookings = session?.user
+        ? await db.booking.findMany({
+              where: {
+                  userId: (session.user as any).id,
+              },
+              include: {
+                  service: {
+                      include: {
+                          barbershop: true,
+                      },
+                  },
+              },
+          })
+        : []
 
     return (
         <>
@@ -28,7 +46,7 @@ const Home = async () => {
                     <Search />
                 </div>
 
-                <div className="mt-6 flex gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
+                <div className="gap3 mt-6 flex overflow-x-scroll [&::-webkit-scrollbar]:hidden">
                     {quickSearchOptions.map((option) => (
                         <Button
                             variant="secondary"
@@ -60,7 +78,14 @@ const Home = async () => {
                     />
                 </div>
 
-                <BookingItem />
+                <h2 className="mb-3 mt-6 text-sm font-bold uppercase text-gray-400">
+                    Agendamentos
+                </h2>
+                <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+                    {bookings.map((booking) => (
+                        <BookingItem key={booking.id} booking={booking} />
+                    ))}
+                </div>
 
                 <h2 className="mb-3 mt-6 text-sm font-bold uppercase text-gray-400">
                     Recomendados
