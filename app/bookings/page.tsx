@@ -25,6 +25,9 @@ const Bookings = async () => {
                 },
             },
         },
+        orderBy: {
+            date: "asc",
+        },
     })
 
     const concludedBookings = await db.booking.findMany({
@@ -41,23 +44,27 @@ const Bookings = async () => {
                 },
             },
         },
+        orderBy: {
+            date: "desc",
+        },
     })
 
     return (
         <>
             <Header />
             <div className="space-y-3 p-5">
-                <h1 className="mt-6 text-sm font-bold uppercase text-gray-400">
+                <h1 className="text-2xl font-bold">Agendamentos</h1>
+                <h2 className="mb-3 mt-6 text-sm font-bold uppercase text-gray-400">
                     Confirmados
-                </h1>
+                </h2>
 
                 {confirmedBookings.map((booking) => (
                     <BookingItem key={booking.id} booking={booking} />
                 ))}
 
-                <h1 className="mt-6 text-sm font-bold uppercase text-gray-400">
+                <h2 className="mb-3 mt-6 text-sm font-bold uppercase text-gray-400">
                     Finalizados
-                </h1>
+                </h2>
 
                 {concludedBookings.map((booking) => (
                     <BookingItem key={booking.id} booking={booking} />
