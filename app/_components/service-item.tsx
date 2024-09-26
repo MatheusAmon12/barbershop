@@ -7,8 +7,8 @@ import { Card, CardContent } from "./ui/card"
 import { Sheet, SheetContent, SheetFooter, SheetTitle } from "./ui/sheet"
 import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
-import { useEffect, useState } from "react"
-import { format, set } from "date-fns"
+import { useEffect, useMemo, useState } from "react"
+import { format, isPast, isToday, set } from "date-fns"
 import { createBooking } from "../_actions/create-booking"
 import { toast } from "sonner"
 import { useSession } from "next-auth/react"
@@ -45,11 +45,24 @@ const TIME_LIST = [
     "18:00",
 ]
 
-const getTimeList = (bookings: Booking[]) => {
+interface getTimeListProps {
+    bookings: Booking[]
+    selectedDay: Date
+}
+
+const getTimeList = ({ bookings, selectedDay }: getTimeListProps) => {
     // TODO: Não exibir horários que estão no passado
     return TIME_LIST.filter((time) => {
         const hour = Number(time.split(":")[0])
         const minutes = Number(time.split(":")[1])
+
+        const isTimeOnThePast = isPast(
+            set(new Date(), { hours: hour, minutes }),
+        )
+
+        if (isTimeOnThePast && isToday(selectedDay)) {
+            return false
+        }
 
         const hasBookingOnCurrentTime = bookings.some(
             (booking) =>
@@ -119,6 +132,15 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
             toast.error("Erro ao criar reserva!")
         }
     }
+
+    const timeList = useMemo(() => {
+        if (!selectedDay) return []
+
+        return getTimeList({
+            bookings: dayBookings,
+            selectedDay,
+        })
+    }, [dayBookings, selectedDay])
 
     useEffect(() => {
         const fecthDayBookings = async () => {
@@ -216,8 +238,8 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
 
                                     {selectedDay && (
                                         <div className="flex gap-3 overflow-x-auto border-b border-solid p-5 [&::-webkit-scrollbar]:hidden">
-                                            {getTimeList(dayBookings).map(
-                                                (time) => (
+                                            {timeList.length > 0 ? (
+                                                timeList.map((time) => (
                                                     <Button
                                                         key={time}
                                                         variant={
@@ -235,7 +257,11 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                                                     >
                                                         {time}
                                                     </Button>
-                                                ),
+                                                ))
+                                            ) : (
+                                                <p className="text-xs text-gray-400">
+                                                    Não há horários disponíveis
+                                                </p>
                                             )}
                                         </div>
                                     )}
