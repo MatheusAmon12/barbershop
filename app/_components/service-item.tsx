@@ -16,6 +16,7 @@ import { getBookings } from "../_actions/get-bookings"
 import { Dialog, DialogContent } from "./ui/dialog"
 import SignInDialog from "./sign-in-dialog"
 import BookingSumary from "./booking-sumary"
+import { useRouter } from "next/navigation"
 
 interface ServiceItemProps {
     service: BarbershopService
@@ -80,6 +81,7 @@ const getTimeList = ({ bookings, selectedDay }: getTimeListProps) => {
 
 const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
     const { data } = useSession()
+    const router = useRouter()
 
     const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
     const [selectedTime, setSelectedTime] = useState<string | undefined>(
@@ -118,7 +120,12 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                 date: selectedDate,
             })
 
-            toast.success("Reserva criada com sucesso!")
+            toast.success("Reserva criada com sucesso!", {
+                action: {
+                    label: "Ver agendamentos",
+                    onClick: () => router.push("/bookings"),
+                },
+            })
             setIsBookingSheetOpen(false)
             handleBookingSheetOpenChange()
         } catch (error) {
