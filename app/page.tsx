@@ -11,15 +11,13 @@ import { authOptions } from "./_lib/auth"
 import { getServerSession } from "next-auth"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
+import { getBarbershops } from "./_data/get-barbershops"
+import { getPopularBarbershops } from "./_data/get-popular-barbershops"
 
 const Home = async () => {
     const session = await getServerSession(authOptions)
-    const barbershops = await db.barbershop.findMany({})
-    const popularBarbershops = await db.barbershop.findMany({
-        orderBy: {
-            name: "desc",
-        },
-    })
+    const barbershops = await getBarbershops()
+    const popularBarbershops = await getPopularBarbershops()
 
     const confirmedBookings = session?.user
         ? await db.booking.findMany({
