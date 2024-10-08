@@ -1,7 +1,7 @@
 import BarbershopItem from "../_components/barbershop-item"
 import Header from "../_components/header"
 import Search from "../_components/search"
-import { db } from "../_lib/prisma"
+import { getSearchedTerms } from "../_data/get-searched-terms"
 
 interface BarbershopsPageProps {
     searchParams: {
@@ -11,32 +11,7 @@ interface BarbershopsPageProps {
 }
 
 const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
-    const barbershops = await db.barbershop.findMany({
-        where: {
-            OR: [
-                searchParams?.title
-                    ? {
-                          name: {
-                              contains: searchParams?.title,
-                              mode: "insensitive",
-                          },
-                      }
-                    : {},
-                searchParams?.services
-                    ? {
-                          services: {
-                              some: {
-                                  name: {
-                                      contains: searchParams?.services,
-                                      mode: "insensitive",
-                                  },
-                              },
-                          },
-                      }
-                    : {},
-            ],
-        },
-    })
+    const barbershops = await getSearchedTerms({ searchParams })
 
     return (
         <div>
