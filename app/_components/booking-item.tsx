@@ -31,6 +31,7 @@ import {
 import { deleteBooking } from "../_actions/delete-booking"
 import { toast } from "sonner"
 import { useState } from "react"
+import BookingSumary from "./booking-sumary"
 
 // TODO: receber agendamento com props
 interface BookingItemProps {
@@ -134,21 +135,15 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                             className="rounded-xl object-cover"
                         />
 
-                        <Card className="z-50 mx-5 mb-3 w-full rounded-xl">
-                            <CardContent className="flex items-center gap-3 px-5 py-3">
-                                <Avatar>
-                                    <AvatarImage src={barbershop.imageUrl} />
-                                </Avatar>
-                                <div>
-                                    <h3 className="font-bold">
-                                        {barbershop.name}
-                                    </h3>
-                                    <p className="text-xs">
-                                        {barbershop.address}
-                                    </p>
-                                </div>
-                            </CardContent>
-                        </Card>
+                        <div className="mb-3 mt-6">
+                            <BookingSumary
+                                barbershop={barbershop}
+                                service={JSON.parse(
+                                    JSON.stringify(booking.service),
+                                )}
+                                selectedDate={booking.date}
+                            />
+                        </div>
                     </div>
 
                     <div className="mt-6">

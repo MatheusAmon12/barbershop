@@ -8,13 +8,14 @@ import { Sheet, SheetContent, SheetFooter, SheetTitle } from "./ui/sheet"
 import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { useEffect, useMemo, useState } from "react"
-import { format, isPast, isToday, set } from "date-fns"
+import { isPast, isToday, set } from "date-fns"
 import { createBooking } from "../_actions/create-booking"
 import { toast } from "sonner"
 import { useSession } from "next-auth/react"
 import { getBookings } from "../_actions/get-bookings"
 import { Dialog, DialogContent } from "./ui/dialog"
 import SignInDialog from "./sign-in-dialog"
+import BookingSumary from "./booking-sumary"
 
 interface ServiceItemProps {
     service: BarbershopService
@@ -110,18 +111,11 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
 
     const handleCreateBooking = async () => {
         try {
-            if (!selectedDay || !selectedTime) return
-
-            const hour = Number(selectedTime.split(":")[0])
-            const minute = Number(selectedTime.split(":")[1])
-            const newDate = set(selectedDay, {
-                minutes: minute,
-                hours: hour,
-            })
+            if (!selectedDate) return
 
             await createBooking({
                 serviceId: service.id,
-                date: newDate,
+                date: selectedDate,
             })
 
             toast.success("Reserva criada com sucesso!")
@@ -141,6 +135,14 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
             selectedDay,
         })
     }, [dayBookings, selectedDay])
+
+    const selectedDate = useMemo(() => {
+        if (!selectedDay || !selectedTime) return
+        return set(selectedDay, {
+            minutes: Number(selectedTime.split(":")[1]),
+            hours: Number(selectedTime.split(":")[0]),
+        })
+    }, [selectedDay, selectedTime])
 
     useEffect(() => {
         const fecthDayBookings = async () => {
@@ -266,64 +268,15 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                                         </div>
                                     )}
 
-                                    {selectedTime && selectedDay && (
+                                    {selectedDate && (
                                         <div className="p-5">
-                                            <Card className="p-3">
-                                                <CardContent className="space-y-3 p-0">
-                                                    <div className="flex items-center justify-between">
-                                                        <h2 className="font-bold">
-                                                            {service.name}
-                                                        </h2>
-                                                        <p className="text-sm font-bold">
-                                                            {Intl.NumberFormat(
-                                                                "pt-BR",
-                                                                {
-                                                                    style: "currency",
-                                                                    currency:
-                                                                        "BRL",
-                                                                },
-                                                            ).format(
-                                                                Number(
-                                                                    service.price,
-                                                                ),
-                                                            )}
-                                                        </p>
-                                                    </div>
-
-                                                    <div className="flex items-center justify-between text-gray-400">
-                                                        <h2 className="text-sm">
-                                                            Data
-                                                        </h2>
-                                                        <p className="text-sm">
-                                                            {format(
-                                                                selectedDay,
-                                                                "d 'de' MMMM",
-                                                                {
-                                                                    locale: ptBR,
-                                                                },
-                                                            )}
-                                                        </p>
-                                                    </div>
-
-                                                    <div className="flex items-center justify-between text-gray-400">
-                                                        <h2 className="text-sm">
-                                                            Horário
-                                                        </h2>
-                                                        <p className="text-sm">
-                                                            {selectedTime}
-                                                        </p>
-                                                    </div>
-
-                                                    <div className="flex items-center justify-between text-gray-400">
-                                                        <h2 className="text-sm">
-                                                            Barbearia
-                                                        </h2>
-                                                        <p className="text-sm">
-                                                            {barbershop.name}
-                                                        </p>
-                                                    </div>
-                                                </CardContent>
-                                            </Card>
+                                            <BookingSumary
+                                                barbershop={barbershop}
+                                                service={JSON.parse(
+                                                    JSON.stringify(service),
+                                                )}
+                                                selectedDate={selectedDate}
+                                            />
                                         </div>
                                     )}
 
