@@ -127,7 +127,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                         </SheetTitle>
                     </SheetHeader>
 
-                    <div className="relative mt-6 flex h-[180px] w-full items-end">
+                    <div className="relative mt-6 flex h-[180px] w-full items-end justify-center p-5">
                         <Image
                             src="/map.png"
                             alt={`Mapa da barbearia ${barbershop.name}.png`}
@@ -135,15 +135,24 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                             className="rounded-xl object-cover"
                         />
 
-                        <div className="mb-3 mt-6">
-                            <BookingSumary
-                                barbershop={barbershop}
-                                service={JSON.parse(
-                                    JSON.stringify(booking.service),
-                                )}
-                                selectedDate={booking.date}
-                            />
-                        </div>
+                        <Card className="z-10 w-full">
+                            <CardContent className="justify-left flex items-center gap-3 px-5 py-3">
+                                <Avatar className="h-12 w-12">
+                                    <AvatarImage
+                                        src={barbershop.imageUrl}
+                                        alt={barbershop.name}
+                                    />
+                                </Avatar>
+                                <div>
+                                    <h2 className="font-bold">
+                                        {barbershop.name}
+                                    </h2>
+                                    <p className="overflow-clip text-ellipsis text-nowrap text-xs">
+                                        {barbershop.address}
+                                    </p>
+                                </div>
+                            </CardContent>
+                        </Card>
                     </div>
 
                     <div className="mt-6">
@@ -155,47 +164,14 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                         </Badge>
                     </div>
 
-                    <div className="mb-6 mt-3">
-                        <Card className="p-3">
-                            <CardContent className="space-y-3 p-0">
-                                <div className="flex items-center justify-between">
-                                    <h2 className="font-bold">
-                                        {booking.service.name}
-                                    </h2>
-                                    <p className="text-sm font-bold">
-                                        {Intl.NumberFormat("pt-BR", {
-                                            style: "currency",
-                                            currency: "BRL",
-                                        }).format(
-                                            Number(booking.service.price),
-                                        )}
-                                    </p>
-                                </div>
-
-                                <div className="flex items-center justify-between text-gray-400">
-                                    <h2 className="text-sm">Data</h2>
-                                    <p className="text-sm">
-                                        {format(booking.date, "d 'de' MMMM", {
-                                            locale: ptBR,
-                                        })}
-                                    </p>
-                                </div>
-
-                                <div className="flex items-center justify-between text-gray-400">
-                                    <h2 className="text-sm">Horário</h2>
-                                    <p className="text-sm">
-                                        {format(booking.date, "HH:mm", {
-                                            locale: ptBR,
-                                        })}
-                                    </p>
-                                </div>
-
-                                <div className="flex items-center justify-between text-gray-400">
-                                    <h2 className="text-sm">Barbearia</h2>
-                                    <p className="text-sm">{barbershop.name}</p>
-                                </div>
-                            </CardContent>
-                        </Card>
+                    <div className="mb-3 mt-6">
+                        <BookingSumary
+                            barbershop={barbershop}
+                            service={JSON.parse(
+                                JSON.stringify(booking.service),
+                            )}
+                            selectedDate={booking.date}
+                        />
                     </div>
 
                     <div className="space-y-3">
