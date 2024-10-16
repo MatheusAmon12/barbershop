@@ -44,29 +44,47 @@ const Home = async () => {
         <>
             <Header />
 
-            <section className="p-5 lg:px-32">
-                <h2 className="text-xl font-bold">
-                    Olá,{" "}
-                    {session?.user
-                        ? session.user.name?.split(" ")[0]
-                        : "bem vindo"}
-                    !
-                </h2>
-                <p>
-                    <span className="capitalize">
-                        {format(new Date(), "EEEE, dd", { locale: ptBR })}
-                    </span>
-                    <span>&nbsp;de&nbsp;</span>
-                    <span className="capitalize">
-                        {format(new Date(), "MMMM", { locale: ptBR })}
-                    </span>
-                </p>
-
-                <div className="mt-6">
-                    <Search />
+            <section className="p-5 lg:bg-hero-background lg:bg-contain lg:bg-no-repeat lg:px-32">
+                <div className="lg:flex lg:justify-between lg:gap-32 lg:py-16">
+                    <div className="lg:min-w-[439px]">
+                        <h2 className="text-xl font-bold">
+                            Olá,{" "}
+                            {session?.user
+                                ? session.user.name?.split(" ")[0]
+                                : "bem vindo"}
+                            !
+                        </h2>
+                        <p>
+                            <span className="capitalize">
+                                {format(new Date(), "EEEE, dd", {
+                                    locale: ptBR,
+                                })}
+                            </span>
+                            <span>&nbsp;de&nbsp;</span>
+                            <span className="capitalize">
+                                {format(new Date(), "MMMM", { locale: ptBR })}
+                            </span>
+                        </p>
+                        <div className="mt-6">
+                            <Search />
+                        </div>
+                    </div>
+                    <div className="hidden lg:block lg:min-w-[617px]">
+                        <h2 className="mb-3 text-sm font-bold uppercase text-gray-400">
+                            Recomendados
+                        </h2>
+                        <div className="flex flex-row gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+                            {barbershops.map((barbershop) => (
+                                <BarbershopItem
+                                    key={barbershop.id}
+                                    barbershop={barbershop}
+                                />
+                            ))}
+                        </div>
+                    </div>
                 </div>
 
-                <div className="mt-6 flex gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
+                <div className="mt-6 flex gap-3 overflow-x-scroll lg:hidden [&::-webkit-scrollbar]:hidden">
                     {quickSearchOptions.map((option) => (
                         <Button
                             variant="secondary"
@@ -89,7 +107,7 @@ const Home = async () => {
                     ))}
                 </div>
 
-                <div className="relative mt-6 h-[150px] w-full">
+                <div className="relative mt-6 h-[150px] w-full lg:hidden">
                     <Image
                         alt="Agende nos melhores com o FSW Barber"
                         src="/BannerPizza.png"
@@ -98,7 +116,7 @@ const Home = async () => {
                     />
                 </div>
 
-                <h2 className="mb-3 mt-6 text-sm font-bold uppercase text-gray-400">
+                <h2 className="mb-3 mt-6 text-sm font-bold uppercase text-gray-400 lg:mt-10">
                     Agendamentos
                 </h2>
                 {session?.user ? (
@@ -122,16 +140,18 @@ const Home = async () => {
                     </p>
                 )}
 
-                <h2 className="mb-3 mt-6 text-sm font-bold uppercase text-gray-400">
-                    Recomendados
-                </h2>
-                <div className="flex flex-row gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-                    {barbershops.map((barbershop) => (
-                        <BarbershopItem
-                            key={barbershop.id}
-                            barbershop={barbershop}
-                        />
-                    ))}
+                <div className="lg:hidden">
+                    <h2 className="mb-3 mt-6 text-sm font-bold uppercase text-gray-400">
+                        Recomendados
+                    </h2>
+                    <div className="flex flex-row gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+                        {barbershops.map((barbershop) => (
+                            <BarbershopItem
+                                key={barbershop.id}
+                                barbershop={barbershop}
+                            />
+                        ))}
+                    </div>
                 </div>
 
                 <h2 className="mb-3 mt-6 text-sm font-bold uppercase text-gray-400">

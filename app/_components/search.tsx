@@ -29,7 +29,10 @@ const Search = () => {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="flex">
+            <form
+                onSubmit={form.handleSubmit(handleSubmit)}
+                className="flex lg:gap-2"
+            >
                 <FormField
                     control={form.control}
                     name="title"
