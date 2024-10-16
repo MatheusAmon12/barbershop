@@ -44,7 +44,7 @@ const Home = async () => {
         <>
             <Header />
 
-            <section className="p-5">
+            <section className="p-5 lg:px-32">
                 <h2 className="text-xl font-bold">
                     Olá,{" "}
                     {session?.user

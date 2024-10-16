@@ -16,7 +16,7 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
     return (
         <div>
             <Header />
-            <div className="my-6 px-5">
+            <div className="my-6 px-5 lg:px-32">
                 <Search />
             </div>
             <div className="px-5">
