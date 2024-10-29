@@ -13,6 +13,7 @@ import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { getBarbershops } from "./_data/get-barbershops"
 import { getPopularBarbershops } from "./_data/get-popular-barbershops"
+import BarbershopCarousel from "./_components/barbershop-carousel"
 
 const Home = async () => {
     const session = await getServerSession(authOptions)
@@ -69,19 +70,7 @@ const Home = async () => {
                             <Search />
                         </div>
                     </div>
-                    <div className="hidden lg:block lg:min-w-[617px]">
-                        <h2 className="mb-3 text-sm font-bold uppercase text-gray-400">
-                            Recomendados
-                        </h2>
-                        <div className="flex flex-row gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-                            {barbershops.map((barbershop) => (
-                                <BarbershopItem
-                                    key={barbershop.id}
-                                    barbershop={barbershop}
-                                />
-                            ))}
-                        </div>
-                    </div>
+                    <BarbershopCarousel barbershops={barbershops} />
                 </div>
 
                 <div className="mt-6 flex gap-3 overflow-x-scroll lg:hidden [&::-webkit-scrollbar]:hidden">
