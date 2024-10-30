@@ -33,7 +33,7 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
                         <span className="text-sm font-semibold">5,0</span>
                     </Badge>
                 </div>
-                <div className="px-1 py-3">
+                <div className="px-1 py-3 lg:px-3">
                     <h3 className="truncate font-semibold">
                         {barbershop.name}
                     </h3>

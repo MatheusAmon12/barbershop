@@ -47,27 +47,46 @@ const Home = async () => {
 
             <section className="p-5 lg:bg-hero-background lg:bg-contain lg:bg-no-repeat lg:px-32">
                 <div className="lg:flex lg:justify-between lg:gap-32 lg:py-16">
-                    <div className="lg:min-w-[439px]">
-                        <h2 className="text-xl font-bold">
-                            Olá,{" "}
-                            {session?.user
-                                ? session.user.name?.split(" ")[0]
-                                : "bem vindo"}
-                            !
-                        </h2>
-                        <p>
-                            <span className="capitalize">
-                                {format(new Date(), "EEEE, dd", {
-                                    locale: ptBR,
-                                })}
-                            </span>
-                            <span>&nbsp;de&nbsp;</span>
-                            <span className="capitalize">
-                                {format(new Date(), "MMMM", { locale: ptBR })}
-                            </span>
-                        </p>
+                    <div
+                        className={`flex flex-col lg:min-w-[439px] ${confirmedBookings.length !== 0 && "justify-between"}`}
+                    >
+                        <div>
+                            <h2 className="text-xl font-bold">
+                                Olá,{" "}
+                                {session?.user
+                                    ? session.user.name?.split(" ")[0]
+                                    : "bem vindo"}
+                                !
+                            </h2>
+                            <p>
+                                <span className="capitalize">
+                                    {format(new Date(), "EEEE, dd", {
+                                        locale: ptBR,
+                                    })}
+                                </span>
+                                <span>&nbsp;de&nbsp;</span>
+                                <span className="capitalize">
+                                    {format(new Date(), "MMMM", {
+                                        locale: ptBR,
+                                    })}
+                                </span>
+                            </p>
+                        </div>
                         <div className="mt-6">
                             <Search />
+                        </div>
+                        <div>
+                            {session?.user && (
+                                <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+                                    <BookingItem
+                                        booking={JSON.parse(
+                                            JSON.stringify(
+                                                confirmedBookings[0],
+                                            ),
+                                        )}
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
                     <BarbershopCarousel barbershops={barbershops} />
@@ -105,32 +124,34 @@ const Home = async () => {
                     />
                 </div>
 
-                <h2 className="mb-3 mt-6 text-sm font-bold uppercase text-gray-400 lg:mt-10">
-                    Agendamentos
-                </h2>
-                {session?.user ? (
-                    <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-                        {confirmedBookings.map((booking) => (
-                            <BookingItem
-                                key={booking.id}
-                                booking={JSON.parse(JSON.stringify(booking))}
-                            />
-                        ))}
+                <div className="mb-3 mt-6 lg:mt-10 lg:hidden">
+                    {confirmedBookings.length !== 0 && (
+                        <>
+                            <h2 className="text-sm font-bold uppercase text-gray-400">
+                                Agendamentos
+                            </h2>
+                            {session?.user ? (
+                                <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+                                    {confirmedBookings.map((booking) => (
+                                        <BookingItem
+                                            key={booking.id}
+                                            booking={JSON.parse(
+                                                JSON.stringify(booking),
+                                            )}
+                                        />
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="text-left text-sm text-gray-400">
+                                    Faça login para ver seus agendamentos
+                                </p>
+                            )}
+                        </>
+                    )}
+                </div>
 
-                        {confirmedBookings.length === 0 && (
-                            <p className="text-left text-sm text-gray-400">
-                                Nenhum agendamento confirmado
-                            </p>
-                        )}
-                    </div>
-                ) : (
-                    <p className="text-left text-sm text-gray-400">
-                        Faça login para ver seus agendamentos
-                    </p>
-                )}
-
-                <div className="lg:hidden">
-                    <h2 className="mb-3 mt-6 text-sm font-bold uppercase text-gray-400">
+                <div className="mb-3 mt-6 lg:mt-10">
+                    <h2 className="text-sm font-bold uppercase text-gray-400">
                         Recomendados
                     </h2>
                     <div className="flex flex-row gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
@@ -143,16 +164,18 @@ const Home = async () => {
                     </div>
                 </div>
 
-                <h2 className="mb-3 mt-6 text-sm font-bold uppercase text-gray-400">
-                    Populares
-                </h2>
-                <div className="flex flex-row gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-                    {popularBarbershops.map((popularBarbershop) => (
-                        <BarbershopItem
-                            key={popularBarbershop.id}
-                            barbershop={popularBarbershop}
-                        />
-                    ))}
+                <div className="mb-3 mt-6 lg:mt-10">
+                    <h2 className="text-sm font-bold uppercase text-gray-400">
+                        Populares
+                    </h2>
+                    <div className="flex flex-row gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+                        {popularBarbershops.map((popularBarbershop) => (
+                            <BarbershopItem
+                                key={popularBarbershop.id}
+                                barbershop={popularBarbershop}
+                            />
+                        ))}
+                    </div>
                 </div>
             </section>
         </>

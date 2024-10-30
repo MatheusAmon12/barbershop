@@ -30,7 +30,7 @@ const BarbershopCarousel = ({ barbershops }: BarbershopCarouselProps) => {
             <Button
                 onClick={() => handleCarouselScroll("left")}
                 variant="outline"
-                className="absolute -left-4 top-1/2 z-10 h-[55px] w-[55px] -translate-y-1/2 rounded-full"
+                className="absolute -left-5 top-1/2 z-10 h-[55px] w-[55px] -translate-y-1/2 rounded-full"
             >
                 <ChevronLeftIcon />
             </Button>
@@ -48,7 +48,7 @@ const BarbershopCarousel = ({ barbershops }: BarbershopCarouselProps) => {
             <Button
                 onClick={() => handleCarouselScroll("right")}
                 variant="outline"
-                className="absolute -right-4 top-1/2 z-10 h-[55px] w-[55px] -translate-y-1/2 rounded-full"
+                className="absolute -right-5 top-1/2 z-10 h-[55px] w-[55px] -translate-y-1/2 rounded-full"
             >
                 <ChevronRightIcon />
             </Button>
