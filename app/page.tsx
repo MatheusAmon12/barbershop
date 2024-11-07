@@ -2,7 +2,6 @@ import Header from "./_components/header"
 import { Button } from "./_components/ui/button"
 import Image from "next/image"
 import { db } from "./_lib/prisma"
-import BarbershopItem from "./_components/barbershop-item"
 import { quickSearchOptions } from "./_constants/search"
 import BookingItem from "./_components/booking-item"
 import Search from "./_components/search"
@@ -89,7 +88,12 @@ const Home = async () => {
                             )}
                         </div>
                     </div>
-                    <BarbershopCarousel barbershops={barbershops} />
+                    <div className="hidden lg:block lg:min-w-[617px]">
+                        <BarbershopCarousel
+                            sectionTitle="recomendados"
+                            barbershops={barbershops}
+                        />
+                    </div>
                 </div>
 
                 <div className="mt-6 flex gap-3 overflow-x-scroll lg:hidden [&::-webkit-scrollbar]:hidden">
@@ -151,31 +155,17 @@ const Home = async () => {
                 </div>
 
                 <div className="mb-3 mt-6 lg:mt-10">
-                    <h2 className="text-sm font-bold uppercase text-gray-400">
-                        Recomendados
-                    </h2>
-                    <div className="flex flex-row gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-                        {barbershops.map((barbershop) => (
-                            <BarbershopItem
-                                key={barbershop.id}
-                                barbershop={barbershop}
-                            />
-                        ))}
-                    </div>
+                    <BarbershopCarousel
+                        sectionTitle="recomendados"
+                        barbershops={barbershops}
+                    />
                 </div>
 
                 <div className="mb-3 mt-6 lg:mt-10">
-                    <h2 className="text-sm font-bold uppercase text-gray-400">
-                        Populares
-                    </h2>
-                    <div className="flex flex-row gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-                        {popularBarbershops.map((popularBarbershop) => (
-                            <BarbershopItem
-                                key={popularBarbershop.id}
-                                barbershop={popularBarbershop}
-                            />
-                        ))}
-                    </div>
+                    <BarbershopCarousel
+                        sectionTitle="populares"
+                        barbershops={popularBarbershops}
+                    />
                 </div>
             </section>
         </>

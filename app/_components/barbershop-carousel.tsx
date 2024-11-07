@@ -8,9 +8,13 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
 interface BarbershopCarouselProps {
     barbershops: Barbershop[]
+    sectionTitle: string
 }
 
-const BarbershopCarousel = ({ barbershops }: BarbershopCarouselProps) => {
+const BarbershopCarousel = ({
+    barbershops,
+    sectionTitle,
+}: BarbershopCarouselProps) => {
     const carouselRef = useRef<HTMLDivElement>(null)
 
     const handleCarouselScroll = (direction: string) => {
@@ -23,14 +27,14 @@ const BarbershopCarousel = ({ barbershops }: BarbershopCarouselProps) => {
     }
 
     return (
-        <div className="relative hidden lg:block lg:min-w-[617px]">
-            <h2 className="mb-3 text-sm font-bold uppercase text-gray-400">
-                Recomendados
+        <div className="relative">
+            <h2 className="mb-3 mt-6 text-sm font-bold uppercase text-gray-400 lg:mt-10">
+                {sectionTitle}
             </h2>
             <Button
                 onClick={() => handleCarouselScroll("left")}
                 variant="outline"
-                className="absolute -left-5 top-1/2 z-10 h-[55px] w-[55px] -translate-y-1/2 rounded-full"
+                className="absolute -left-5 top-1/2 z-10 hidden h-[55px] w-[55px] -translate-y-1/2 rounded-full lg:block"
             >
                 <ChevronLeftIcon />
             </Button>
@@ -48,7 +52,7 @@ const BarbershopCarousel = ({ barbershops }: BarbershopCarouselProps) => {
             <Button
                 onClick={() => handleCarouselScroll("right")}
                 variant="outline"
-                className="absolute -right-5 top-1/2 z-10 h-[55px] w-[55px] -translate-y-1/2 rounded-full"
+                className="absolute -right-5 top-1/2 z-10 hidden h-[55px] w-[55px] -translate-y-1/2 rounded-full lg:block"
             >
                 <ChevronRightIcon />
             </Button>
