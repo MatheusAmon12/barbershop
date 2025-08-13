@@ -47,14 +47,15 @@ interface BookingItemProps {
 }
 
 const BookingItem = ({ booking }: BookingItemProps) => {
+    console.log(booking)
     const [isSheetOpen, setIsSheetOpen] = useState(false)
-    const {
-        service: { barbershop },
-    } = booking
-    const isConfirmed = isFuture(booking.date)
+    const isConfirmed = isFuture(booking?.date)
 
     const handleCancelBooking = async () => {
         try {
+            if (!booking?.id) {
+                return
+            }
             await deleteBooking(booking.id)
             setIsSheetOpen(false)
             toast.success("Reserva cancelada com sucesso!")
@@ -83,38 +84,46 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                                     {isConfirmed ? "Confirmado" : "Finalizado"}
                                 </Badge>
                                 <h3 className="font-semibold">
-                                    {booking.service.name}
+                                    {booking?.service?.name}
                                 </h3>
                                 <div className="flex flex-row items-center gap-1">
                                     <Avatar className="h-6 w-6">
                                         <AvatarImage
                                             src={
-                                                booking.service.barbershop
-                                                    .imageUrl
+                                                booking?.service?.barbershop
+                                                    ?.imageUrl
                                             }
                                         />
                                     </Avatar>
                                     <p className="text-sm">
-                                        {booking.service.barbershop.name}
+                                        {booking?.service?.barbershop?.name}
                                     </p>
                                 </div>
                             </div>
 
                             <div className="flex flex-col items-center justify-center border-l-2 border-solid px-5">
                                 <p className="text-sm capitalize">
-                                    {format(booking.date, "MMMM", {
-                                        locale: ptBR,
-                                    })}
+                                    {format(
+                                        booking?.date ?? new Date(),
+                                        "MMMM",
+                                        {
+                                            locale: ptBR,
+                                        },
+                                    )}
                                 </p>
                                 <p className="text-xl">
-                                    {format(booking.date, "dd", {
+                                    {format(booking?.date ?? new Date(), "dd", {
                                         locale: ptBR,
                                     })}
                                 </p>
                                 <p className="text-sm">
-                                    {format(booking.date, "HH:mm", {
-                                        locale: ptBR,
-                                    })}
+                                    {format(
+                                        booking?.date ?? new Date(),
+                                        "HH:mm",
+                                        {
+                                            locale: ptBR,
+                                        },
+                                    )}
                                 </p>
                             </div>
                         </CardContent>
@@ -130,7 +139,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                     <div className="relative mt-6 flex h-[180px] w-full items-end justify-center p-5">
                         <Image
                             src="/map.png"
-                            alt={`Mapa da barbearia ${barbershop.name}.png`}
+                            alt={`Mapa da barbearia ${booking?.service?.barbershop?.name}.png`}
                             fill
                             className="rounded-xl object-cover"
                         />
@@ -139,16 +148,19 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                             <CardContent className="justify-left flex items-center gap-3 px-5 py-3">
                                 <Avatar className="h-12 w-12">
                                     <AvatarImage
-                                        src={barbershop.imageUrl}
-                                        alt={barbershop.name}
+                                        src={
+                                            booking?.service?.barbershop
+                                                ?.imageUrl
+                                        }
+                                        alt={booking?.service?.barbershop?.name}
                                     />
                                 </Avatar>
                                 <div>
                                     <h2 className="font-bold">
-                                        {barbershop.name}
+                                        {booking?.service?.barbershop?.name}
                                     </h2>
                                     <p className="overflow-clip text-ellipsis text-nowrap text-xs">
-                                        {barbershop.address}
+                                        {booking?.service?.barbershop?.address}
                                     </p>
                                 </div>
                             </CardContent>
@@ -166,16 +178,14 @@ const BookingItem = ({ booking }: BookingItemProps) => {
 
                     <div className="mb-3 mt-6">
                         <BookingSumary
-                            barbershop={barbershop}
-                            service={JSON.parse(
-                                JSON.stringify(booking.service),
-                            )}
-                            selectedDate={booking.date}
+                            barbershop={booking?.service?.barbershop}
+                            service={booking?.service}
+                            selectedDate={booking?.date}
                         />
                     </div>
 
                     <div className="space-y-3">
-                        {barbershop.phones.map((phone) => (
+                        {booking?.service?.barbershop?.phones?.map((phone) => (
                             <PhoneItem key={phone} phone={phone} />
                         ))}
                     </div>

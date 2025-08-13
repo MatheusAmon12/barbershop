@@ -40,6 +40,8 @@ const Home = async () => {
           })
         : []
 
+    console.log("", confirmedBookings)
+
     return (
         <>
             <Header />
@@ -47,7 +49,7 @@ const Home = async () => {
             <section className="p-5 lg:bg-hero-background lg:bg-contain lg:bg-no-repeat lg:px-32">
                 <div className="lg:flex lg:justify-between lg:gap-32 lg:py-16">
                     <div
-                        className={`flex flex-col lg:min-w-[439px] ${confirmedBookings.length !== 0 && "justify-between"}`}
+                        className={`flex flex-col lg:min-w-[439px] ${confirmedBookings?.length > 0 && "justify-between"}`}
                     >
                         <div>
                             <h2 className="text-xl font-bold">
@@ -75,17 +77,20 @@ const Home = async () => {
                             <Search />
                         </div>
                         <div>
-                            {session?.user && (
-                                <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-                                    <BookingItem
-                                        booking={JSON.parse(
-                                            JSON.stringify(
-                                                confirmedBookings[0],
-                                            ),
-                                        )}
-                                    />
-                                </div>
-                            )}
+                            {session?.user &&
+                                confirmedBookings &&
+                                confirmedBookings.length >= 1 && (
+                                    <div className="flex flex-col gap-4">
+                                        <h2 className="text-sm font-bold uppercase text-muted-foreground">
+                                            agendamentos
+                                        </h2>
+                                        <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+                                            <BookingItem
+                                                booking={confirmedBookings[0]}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
                         </div>
                     </div>
                     <div className="hidden lg:block lg:min-w-[617px]">
