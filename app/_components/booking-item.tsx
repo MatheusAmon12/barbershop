@@ -101,7 +101,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                                 </div>
                             </div>
 
-                            <div className="flex flex-col items-center justify-center border-l-2 border-solid px-5">
+                            <div className="flex w-28 flex-col items-center justify-center border-l-2 border-solid px-5 lg:w-32">
                                 <p className="text-sm capitalize">
                                     {format(
                                         booking?.date ?? new Date(),
