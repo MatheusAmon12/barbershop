@@ -26,7 +26,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
     }
 
     return (
-        <div className="grid grid-cols-1 items-start gap-10 lg:container lg:grid-cols-[3.5fr_2fr]">
+        <div className="grid grid-cols-1 items-start gap-10 lg:container lg:mt-10 lg:grid-cols-[3.5fr_2fr]">
             <div>
                 <div className="relative h-[250px] w-full lg:h-[485.9px]">
                     <Image
@@ -34,7 +34,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
                         src={barbershop.imageUrl}
                         fill
                         quality={100}
-                        className="object-cover"
+                        className="object-cover lg:rounded-lg"
                     />
 
                     <Button
