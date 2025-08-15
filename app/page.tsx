@@ -73,7 +73,7 @@ const Home = async () => {
                         <div className="mt-6">
                             <Search />
                         </div>
-                        <div className="mt-6">
+                        <div className="mt-6 hidden lg:block">
                             {session?.user &&
                                 confirmedBookings &&
                                 confirmedBookings.length >= 1 && (
@@ -130,10 +130,10 @@ const Home = async () => {
                     />
                 </div>
 
-                <div className="mb-3 mt-6 lg:mt-10 lg:hidden">
+                <div className="mb-3 mt-6 lg:hidden">
                     {confirmedBookings.length !== 0 && (
                         <>
-                            <h2 className="text-sm font-bold uppercase text-gray-400">
+                            <h2 className="mb-3 text-sm font-bold uppercase text-gray-400">
                                 Agendamentos
                             </h2>
                             {session?.user ? (
