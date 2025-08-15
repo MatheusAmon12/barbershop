@@ -17,6 +17,7 @@ import { Dialog, DialogContent } from "./ui/dialog"
 import SignInDialog from "./sign-in-dialog"
 import BookingSumary from "./booking-sumary"
 import { useRouter } from "next/navigation"
+import { formatPriceInCentsToBRL } from "../utils/currency"
 
 interface ServiceItemProps {
     service: BarbershopService
@@ -188,10 +189,9 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
 
                         <div className="flex items-center justify-between">
                             <p className="text-sm font-bold text-primary">
-                                {Intl.NumberFormat("pt-BR", {
-                                    style: "currency",
-                                    currency: "BRL",
-                                }).format(Number(service.price))}
+                                {formatPriceInCentsToBRL(
+                                    service?.priceInCents ?? 0,
+                                )}
                             </p>
 
                             <Sheet
