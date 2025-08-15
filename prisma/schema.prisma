@@ -67,10 +67,10 @@ model Barbershop {
   phones               String[]
   description          String
   imageUrl             String
-  availableFromWeekDay Int?
-  availableToWeekDay   Int?
-  availableFromTime    DateTime?           @db.Time
-  availableToTime      DateTime?           @db.Time
+  availableFromWeekDay Int
+  availableToWeekDay   Int
+  availableFromTime    DateTime            @db.Time
+  availableToTime      DateTime            @db.Time
   services             BarbershopService[]
   createdAt            DateTime            @default(now())
   updatedAt            DateTime            @updatedAt
@@ -81,8 +81,8 @@ model BarbershopService {
   name         String
   description  String
   imageUrl     String
-  priceInCents Int?
-  duration     Int?
+  priceInCents Int
+  duration     Int
   barbershopId String
   barbershop   Barbershop @relation(fields: [barbershopId], references: [id])
   bookings     Booking[]
