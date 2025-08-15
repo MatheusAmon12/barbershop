@@ -44,7 +44,7 @@ const Home = async () => {
     return (
         <>
             <section className="p-5 lg:bg-hero-background lg:bg-contain lg:bg-no-repeat lg:px-32">
-                <div className="lg:flex lg:justify-between lg:gap-32 lg:py-16">
+                <div className="lg:grid lg:grid-cols-2 lg:gap-32 lg:py-16">
                     <div
                         className={`flex flex-col lg:min-w-[439px] ${confirmedBookings?.length > 0 && "justify-between"}`}
                     >
@@ -73,7 +73,7 @@ const Home = async () => {
                         <div className="mt-6">
                             <Search />
                         </div>
-                        <div>
+                        <div className="mt-6">
                             {session?.user &&
                                 confirmedBookings &&
                                 confirmedBookings.length >= 1 && (
@@ -90,7 +90,7 @@ const Home = async () => {
                                 )}
                         </div>
                     </div>
-                    <div className="hidden lg:block lg:min-w-[617px]">
+                    <div className="hidden lg:block">
                         <BarbershopCarousel
                             sectionTitle="recomendados"
                             barbershops={barbershops}
