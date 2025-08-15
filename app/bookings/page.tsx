@@ -5,8 +5,7 @@ import { getConfirmedBookings } from "../_data/get-confirmed-bookings"
 import { getConcludedBookings } from "../_data/get-concluded-bookings"
 import { Button } from "../_components/ui/button"
 import Link from "next/link"
-import { Dialog, DialogContent } from "../_components/ui/dialog"
-import SignInDialog from "../_components/sign-in-dialog"
+import { redirect } from "next/navigation"
 
 const Bookings = async () => {
     const session = await getServerSession(authOptions)
@@ -50,13 +49,7 @@ const Bookings = async () => {
         )
 
     if (!session) {
-        return (
-            <Dialog open>
-                <DialogContent className="w-[90%]">
-                    <SignInDialog />
-                </DialogContent>
-            </Dialog>
-        )
+        redirect("/")
     }
 
     return (

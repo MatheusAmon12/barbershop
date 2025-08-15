@@ -10,13 +10,14 @@ import Link from "next/link"
 import Search from "./search"
 import { useIsMobile } from "../hooks/use-is-mobile"
 import { usePathname } from "next/navigation"
+import BookingsButton from "./bookings-button"
 
 const Header = () => {
     const { isMobile } = useIsMobile()
     const pathname = usePathname()
 
     const isHomePage = pathname === "/"
-    const shouldShowHeader = !isHomePage && !isMobile
+    const shouldShowSearch = !isHomePage && !isMobile
 
     return (
         <Card className="w-full">
@@ -30,16 +31,19 @@ const Header = () => {
                     />
                 </Link>
 
-                {shouldShowHeader && <Search className="w-1/3" />}
+                {shouldShowSearch && <Search className="w-1/3" />}
 
-                <Sheet>
-                    <SheetTrigger asChild>
-                        <Button size="icon" variant="outline">
-                            <MenuIcon />
-                        </Button>
-                    </SheetTrigger>
-                    <SidebarSheet />
-                </Sheet>
+                <div className="flex items-center justify-between gap-6">
+                    {!isMobile && <BookingsButton showUserAvatar />}
+                    <Sheet>
+                        <SheetTrigger asChild>
+                            <Button size="icon" variant="outline">
+                                <MenuIcon />
+                            </Button>
+                        </SheetTrigger>
+                        <SidebarSheet />
+                    </Sheet>
+                </div>
             </CardContent>
         </Card>
     )
