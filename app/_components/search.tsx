@@ -8,12 +8,17 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form"
+import { cn } from "../_lib/utils"
+
+interface SearchProps {
+    className?: string
+}
 
 const formSchema = z.object({
     title: z.string().trim().min(3, { message: "Digite algo para buscar!" }),
 })
 
-const Search = () => {
+const Search = ({ className }: SearchProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -31,7 +36,7 @@ const Search = () => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(handleSubmit)}
-                className="flex lg:gap-2"
+                className={cn("flex lg:gap-2", className)}
             >
                 <FormField
                     control={form.control}

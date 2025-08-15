@@ -47,7 +47,6 @@ interface BookingItemProps {
 }
 
 const BookingItem = ({ booking }: BookingItemProps) => {
-    console.log(booking)
     const [isSheetOpen, setIsSheetOpen] = useState(false)
     const isConfirmed = isFuture(booking?.date)
 

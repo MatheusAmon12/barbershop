@@ -1,5 +1,4 @@
 import BarbershopItem from "../_components/barbershop-item"
-import Header from "../_components/header"
 import Search from "../_components/search"
 import { getSearchedTerms } from "../_data/get-searched-terms"
 
@@ -15,7 +14,6 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
 
     return (
         <div>
-            <Header />
             <div className="my-6 px-5 lg:px-32">
                 <Search />
             </div>

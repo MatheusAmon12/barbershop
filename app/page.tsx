@@ -1,4 +1,3 @@
-import Header from "./_components/header"
 import { Button } from "./_components/ui/button"
 import Image from "next/image"
 import { db } from "./_lib/prisma"
@@ -44,8 +43,6 @@ const Home = async () => {
 
     return (
         <>
-            <Header />
-
             <section className="p-5 lg:bg-hero-background lg:bg-contain lg:bg-no-repeat lg:px-32">
                 <div className="lg:flex lg:justify-between lg:gap-32 lg:py-16">
                     <div
