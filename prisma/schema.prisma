@@ -7,12 +7,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  BARBER
+}
+
 model User {
-  id            String    @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String?
-  email         String    @unique
+  email         String      @unique
   emailVerified DateTime?
   image         String?
+  role          Role        @default(USER)
+  barbershop    Barbershop?
   accounts      Account[]
   sessions      Session[]
   bookings      Booking[]
@@ -61,19 +68,29 @@ model VerificationToken {
 }
 
 model Barbershop {
-  id                   String              @id @default(uuid())
-  name                 String
-  address              String
-  phones               String[]
-  description          String
-  imageUrl             String
-  availableFromWeekDay Int
-  availableToWeekDay   Int
-  availableFromTime    DateTime            @db.Time
-  availableToTime      DateTime            @db.Time
-  services             BarbershopService[]
-  createdAt            DateTime            @default(now())
-  updatedAt            DateTime            @updatedAt
+  id                      String                   @id @default(uuid())
+  userId                  String                   @unique
+  name                    String
+  address                 String
+  phones                  String[]
+  description             String
+  imageUrl                String
+  user                    User                     @relation(fields: [userId], references: [id], onDelete: NoAction)
+  services                BarbershopService[]
+  barbershopAvailableDays BarbershopAvailableDay[]
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+}
+
+model BarbershopAvailableDay {
+  id                String     @id @default(uuid())
+  availableDay      Int
+  availableFromTime DateTime   @db.Time
+  availableToTime   DateTime   @db.Time
+  barbershopId      String
+  barbershop        Barbershop @relation(fields: [barbershopId], references: [id])
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
 }
 
 model BarbershopService {
