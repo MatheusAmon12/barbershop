@@ -12,6 +12,8 @@ import { ptBR } from "date-fns/locale"
 import { getBarbershops } from "./_data/get-barbershops"
 import { getPopularBarbershops } from "./_data/get-popular-barbershops"
 import BarbershopCarousel from "./_components/barbershop-carousel"
+import { EmptyBarbershopsListFallback } from "./_components/empty-barbershops-list-fallback"
+import { cn } from "./_lib/utils"
 
 const Home = async () => {
     const session = await getServerSession(authOptions)
@@ -39,11 +41,14 @@ const Home = async () => {
           })
         : []
 
-    console.log("", confirmedBookings)
-
-    return (
-        <>
-            <section className="p-5 lg:bg-hero-background lg:bg-contain lg:bg-no-repeat lg:px-32">
+    const getBarbershopHomePage = () =>
+        barbershops && barbershops?.length === 0 ? (
+            <section
+                className={cn(
+                    "p-5 lg:bg-contain lg:bg-no-repeat lg:px-32",
+                    barbershops.length > 0 && "lg:bg-hero-background",
+                )}
+            >
                 <div className="lg:grid lg:grid-cols-2 lg:gap-32 lg:py-16">
                     <div
                         className={`flex flex-col lg:min-w-[439px] ${confirmedBookings?.length > 0 && "justify-between"}`}
@@ -90,12 +95,15 @@ const Home = async () => {
                                 )}
                         </div>
                     </div>
-                    <div className="hidden lg:block">
-                        <BarbershopCarousel
-                            sectionTitle="recomendados"
-                            barbershops={barbershops}
-                        />
-                    </div>
+
+                    {barbershops && barbershops?.length > 0 && (
+                        <div className="hidden lg:block">
+                            <BarbershopCarousel
+                                sectionTitle="recomendados"
+                                barbershops={barbershops}
+                            />
+                        </div>
+                    )}
                 </div>
 
                 <div className="mt-6 flex gap-3 overflow-x-scroll lg:hidden [&::-webkit-scrollbar]:hidden">
@@ -130,48 +138,53 @@ const Home = async () => {
                     />
                 </div>
 
-                <div className="mb-3 mt-6 lg:hidden">
-                    {confirmedBookings.length !== 0 && (
-                        <>
-                            <h2 className="mb-3 text-sm font-bold uppercase text-gray-400">
-                                Agendamentos
-                            </h2>
-                            {session?.user ? (
-                                <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-                                    {confirmedBookings.map((booking) => (
-                                        <BookingItem
-                                            key={booking.id}
-                                            booking={JSON.parse(
-                                                JSON.stringify(booking),
-                                            )}
-                                        />
-                                    ))}
-                                </div>
-                            ) : (
-                                <p className="text-left text-sm text-gray-400">
-                                    Faça login para ver seus agendamentos
-                                </p>
-                            )}
-                        </>
-                    )}
-                </div>
+                {confirmedBookings && confirmedBookings?.length > 0 && (
+                    <div className="mb-3 mt-6 lg:hidden">
+                        <h2 className="mb-3 text-sm font-bold uppercase text-gray-400">
+                            Agendamentos
+                        </h2>
+                        {session?.user ? (
+                            <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+                                {confirmedBookings.map((booking) => (
+                                    <BookingItem
+                                        key={booking.id}
+                                        booking={JSON.parse(
+                                            JSON.stringify(booking),
+                                        )}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-left text-sm text-gray-400">
+                                Faça login para ver seus agendamentos
+                            </p>
+                        )}
+                    </div>
+                )}
 
-                <div className="mb-3 mt-6 lg:mt-10">
-                    <BarbershopCarousel
-                        sectionTitle="recomendados"
-                        barbershops={barbershops}
-                    />
-                </div>
+                {barbershops && barbershops?.length > 0 && (
+                    <div className="mb-3 mt-6 lg:mt-10">
+                        <BarbershopCarousel
+                            sectionTitle="recomendados"
+                            barbershops={barbershops}
+                        />
+                    </div>
+                )}
 
-                <div className="mb-3 mt-6 lg:mt-10">
-                    <BarbershopCarousel
-                        sectionTitle="populares"
-                        barbershops={popularBarbershops}
-                    />
-                </div>
+                {popularBarbershops && popularBarbershops?.length > 0 && (
+                    <div className="mb-3 mt-6 lg:mt-10">
+                        <BarbershopCarousel
+                            sectionTitle="populares"
+                            barbershops={popularBarbershops}
+                        />
+                    </div>
+                )}
             </section>
-        </>
-    )
+        ) : (
+            <EmptyBarbershopsListFallback />
+        )
+
+    return getBarbershopHomePage()
 }
 
 export default Home
