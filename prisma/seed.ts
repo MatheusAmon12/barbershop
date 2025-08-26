@@ -1,5 +1,4 @@
 const { PrismaClient } = require("@prisma/client")
-
 const prisma = new PrismaClient()
 
 async function seedDatabase() {
@@ -96,26 +95,87 @@ async function seedDatabase() {
         ]
 
         for (let i = 0; i < 10; i++) {
-            await prisma.barbershop.create({
+            await prisma.user.create({
                 data: {
-                    name: creativeNames[i],
-                    address: addresses[i],
-                    imageUrl: images[i],
-                    phones: ["(11) 99999-9999", "(11) 99999-9999"],
-                    description:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac augue ullamcorper, pharetra orci mollis, auctor tellus.",
-                    availableFromWeekDay: 1, // segunda-feira
-                    availableToWeekDay: 6, // sábado
-                    availableFromTime: new Date("1970-01-01T09:00:00Z"),
-                    availableToTime: new Date("1970-01-01T18:00:00Z"),
-                    services: {
-                        create: services.map((service) => ({
-                            name: service.name,
-                            description: service.description,
-                            priceInCents: service.priceInCents,
-                            duration: service.duration,
-                            imageUrl: service.imageUrl,
-                        })),
+                    name: `Usuário ${i + 1}`,
+                    email: `usuario${i + 1}@example.com`,
+                    role: "BARBER",
+                    barbershop: {
+                        create: {
+                            name: creativeNames[i],
+                            address: addresses[i],
+                            imageUrl: images[i],
+                            phones: ["(11) 99999-9999", "(11) 98888-8888"],
+                            description:
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac augue ullamcorper, pharetra orci mollis, auctor tellus.",
+                            services: {
+                                create: services.map((service) => ({
+                                    name: service.name,
+                                    description: service.description,
+                                    priceInCents: service.priceInCents,
+                                    duration: service.duration,
+                                    imageUrl: service.imageUrl,
+                                })),
+                            },
+                            barbershopAvailableDays: {
+                                create: [
+                                    {
+                                        availableDay: 1,
+                                        availableFromTime: new Date(
+                                            "1970-01-01T09:00:00Z",
+                                        ),
+                                        availableToTime: new Date(
+                                            "1970-01-01T18:00:00Z",
+                                        ),
+                                    },
+                                    {
+                                        availableDay: 2,
+                                        availableFromTime: new Date(
+                                            "1970-01-01T09:00:00Z",
+                                        ),
+                                        availableToTime: new Date(
+                                            "1970-01-01T18:00:00Z",
+                                        ),
+                                    },
+                                    {
+                                        availableDay: 3,
+                                        availableFromTime: new Date(
+                                            "1970-01-01T09:00:00Z",
+                                        ),
+                                        availableToTime: new Date(
+                                            "1970-01-01T18:00:00Z",
+                                        ),
+                                    },
+                                    {
+                                        availableDay: 4,
+                                        availableFromTime: new Date(
+                                            "1970-01-01T09:00:00Z",
+                                        ),
+                                        availableToTime: new Date(
+                                            "1970-01-01T18:00:00Z",
+                                        ),
+                                    },
+                                    {
+                                        availableDay: 5,
+                                        availableFromTime: new Date(
+                                            "1970-01-01T09:00:00Z",
+                                        ),
+                                        availableToTime: new Date(
+                                            "1970-01-01T18:00:00Z",
+                                        ),
+                                    },
+                                    {
+                                        availableDay: 6,
+                                        availableFromTime: new Date(
+                                            "1970-01-01T09:00:00Z",
+                                        ),
+                                        availableToTime: new Date(
+                                            "1970-01-01T13:00:00Z",
+                                        ),
+                                    },
+                                ],
+                            },
+                        },
                     },
                 },
             })

@@ -42,7 +42,7 @@ const Home = async () => {
         : []
 
     const getBarbershopHomePage = () =>
-        barbershops && barbershops?.length === 0 ? (
+        barbershops && barbershops?.length !== 0 ? (
             <section
                 className={cn(
                     "p-5 lg:bg-contain lg:bg-no-repeat lg:px-32",
